@@ -3,14 +3,14 @@ pipeline {
 
     environment {
         IMAGE = "jagatheeshwari/webapp"
-        TAG = "${BUILD_NUMBER}"
+        KUBECONFIG_PATH = "C:\\jenkins\\.kube\\config"
     }
 
     stages {
 
         stage('Build') {
             steps {
-                bat "docker build -t ${IMAGE}:${TAG} ."
+                bat 'docker build -t %IMAGE%:%BUILD_NUMBER% .'
             }
         }
 
@@ -21,20 +21,24 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
+                    bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
                 }
             }
         }
 
         stage('Push') {
             steps {
-                bat "docker push ${IMAGE}:${TAG}"
+                bat 'docker push %IMAGE%:%BUILD_NUMBER%'
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy to Kubernetes') {
             steps {
-                bat "kubectl set image deployment/webapp webapp=${IMAGE}:${TAG}"
+                bat """
+                set KUBECONFIG=%KUBECONFIG_PATH%
+                kubectl get nodes
+                kubectl set image deployment/webapp webapp=%IMAGE%:%BUILD_NUMBER%
+                """
             }
         }
     }
