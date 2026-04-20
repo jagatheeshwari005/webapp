@@ -2,43 +2,45 @@ pipeline {
     agent any
 
     environment {
-        IMAGE = "jagatheeshwari/webapp"
-        KUBECONFIG_PATH = "C:\\jenkins\\.kube\\config"
+        IMAGE_NAME = "jagatheeshwari/webapp"
+        IMAGE_TAG = "${BUILD_NUMBER}"
     }
 
     stages {
 
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                bat 'docker build -t %IMAGE%:%BUILD_NUMBER% .'
+                git 'https://github.com/jagatheeshwari005/webapp'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ."
             }
         }
 
         stage('Login to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'docker-creds',
+                    credentialsId: 'docker-cred',
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
+                    bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
                 }
             }
         }
 
-        stage('Push') {
+        stage('Push Image') {
             steps {
-                bat 'docker push %IMAGE%:%BUILD_NUMBER%'
+                bat "docker push %IMAGE_NAME%:%IMAGE_TAG%"
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                bat """
-                set KUBECONFIG=%KUBECONFIG_PATH%
-                kubectl get nodes
-                kubectl set image deployment/webapp webapp=%IMAGE%:%BUILD_NUMBER%
-                """
+                bat "kubectl set image deployment/webapp webapp=%IMAGE_NAME%:%IMAGE_TAG%"
             }
         }
     }
