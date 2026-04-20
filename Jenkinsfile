@@ -2,26 +2,26 @@ pipeline {
     agent any
 
     environment {
-        IMAGE = "your-dockerhub-username/webapp"
+        IMAGE = "jagatheeshwari/webapp"
     }
 
     stages {
 
         stage('Build') {
             steps {
-                sh 'docker build -t $IMAGE:$BUILD_NUMBER .'
+                bat 'docker build -t %IMAGE%:latest .'
             }
         }
 
         stage('Push') {
             steps {
-                sh 'docker push $IMAGE:$BUILD_NUMBER'
+                bat 'docker push %IMAGE%:latest'
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'kubectl set image deployment/webapp webapp=$IMAGE:$BUILD_NUMBER'
+                bat 'kubectl set image deployment/webapp webapp=%IMAGE%:latest'
             }
         }
     }
