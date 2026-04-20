@@ -3,14 +3,14 @@ pipeline {
 
     environment {
         IMAGE = "jagatheeshwari/webapp"
-        TAG = "%BUILD_NUMBER%"
+        TAG = "${BUILD_NUMBER}"
     }
 
     stages {
 
         stage('Build') {
             steps {
-                bat 'docker build -t %IMAGE%:%TAG% .'
+                bat "docker build -t ${IMAGE}:${TAG} ."
             }
         }
 
@@ -21,20 +21,20 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
+                    bat "echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin"
                 }
             }
         }
 
         stage('Push') {
             steps {
-                bat 'docker push %IMAGE%:%TAG%'
+                bat "docker push ${IMAGE}:${TAG}"
             }
         }
 
         stage('Deploy') {
             steps {
-                bat 'kubectl set image deployment/webapp webapp=%IMAGE%:%TAG%'
+                bat "kubectl set image deployment/webapp webapp=${IMAGE}:${TAG}"
             }
         }
     }
