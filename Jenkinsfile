@@ -8,12 +8,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/jagatheeshwari005/webapp'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ."
