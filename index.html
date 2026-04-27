@@ -2,26 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My DevOps App</title>
-
-    <!-- Link CSS -->
+    <title>Coffee Shop</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="container">
-        <h1>🚀 Welcome to My DevOps App</h1>
-        <p>CI/CD using Jenkins + Docker + Kubernetes</p>
 
-        <button onclick="showMessage()">Click here</button>
-        <p id="msg"></p>
+<header>
+    <h1>☕ Brew Haven</h1>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Menu</a>
+        <a href="#">Contact</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h2>Fresh Coffee, Every Day</h2>
+    <p>Experience the best coffee in town</p>
+    <button>Order Now</button>
+</section>
+
+<section class="menu">
+    <h2>Our Menu</h2>
+    <div class="items">
+        <div class="card">
+            <h3>Espresso</h3>
+            <p>Strong and bold coffee</p>
+        </div>
+        <div class="card">
+            <h3>Cappuccino</h3>
+            <p>Rich and creamy delight</p>
+        </div>
+        <div class="card">
+            <h3>Latte</h3>
+            <p>Smooth and milky taste</p>
+        </div>
     </div>
+</section>
 
-    <script>
-        function showMessage() {
-            document.getElementById("msg").innerText = "🔥 Deployment Successful!";
-        }
-    </script>
+<footer>
+    <p>© 2026 Brew Haven | Made with ❤️</p>
+</footer>
+
 </body>
 </html>
