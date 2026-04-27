@@ -1,33 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My DevOps Project </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My DevOps App</title>
+
+    <!-- Link CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+    <div class="container">
+        <h1>🚀 Welcome to My DevOps App</h1>
+        <p>CI/CD using Jenkins + Docker + Kubernetes</p>
 
-    <header>
-        <h1>🚀 My CI/CD Pipeline</h1>
-        <p>deployment using Jenkins, Docker & Kubernetes</p>
-    </header>
+        <button onclick="showMessage()">Click Me</button>
+        <p id="msg"></p>
+    </div>
 
-    <section>
-        <h2>About This Projects</h2>
-        <p>This website is automatically deployed whenever I push code to GitHub.</p>
-    </section>
-
-    <section>
-        <h2>Features</h2>
-        <ul>
-            <li>✔ Continuous Deployment</li>
-            <li>✔ Dockerized Application</li>
-            <li>✔ Kubernetes Scaling</li>
-        </ul>
-    </section>
-
-    <footer>
-        <p>Built with ❤️ by You</p>
-    </footer>
-
+    <script>
+        function showMessage() {
+            document.getElementById("msg").innerText = "🔥 Deployment Successful!";
+        }
+    </script>
 </body>
 </html>
